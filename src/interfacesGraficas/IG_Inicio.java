@@ -3,6 +3,7 @@ package interfacesGraficas;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import clases.Mercaderia;
 
@@ -13,7 +14,7 @@ public class IG_Inicio extends JFrame implements ActionListener {
     // ATRIBUTOS
 
     public static Mercaderia mercaderia;
-    public static Mercaderia aux;
+    public static ArrayList<Mercaderia> aux;
 
     private String user;
     private String password;
@@ -29,7 +30,7 @@ public class IG_Inicio extends JFrame implements ActionListener {
 
     // CONSTRUCTOR
 
-    public IG_Inicio (Mercaderia mercaderia, Mercaderia aux)
+    public IG_Inicio (Mercaderia mercaderia, ArrayList<Mercaderia> aux)
     {
         this.mercaderia = mercaderia;
         this.aux = aux;

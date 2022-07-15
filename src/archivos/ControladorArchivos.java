@@ -2,16 +2,12 @@ package archivos;
 
 import clases.Mercaderia;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.ArrayList;
 
 public class ControladorArchivos
 {
-    public static boolean guardarArchivo(String file, Mercaderia mercaderia)
+    public static boolean guardarArchivo(String file, ArrayList<Mercaderia> mercaderia)
     {
         boolean seGuardo = false;
 
@@ -20,7 +16,10 @@ public class ControladorArchivos
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
-            objectOutputStream.writeObject(mercaderia);
+            for (int i = 0; i < mercaderia.size(); i++)
+            {
+                objectOutputStream.writeObject(mercaderia.get(i));
+            }
 
             objectOutputStream.close();
 
@@ -41,19 +40,24 @@ public class ControladorArchivos
             return false;
     }
 
-    public static Mercaderia leerArchivo(String file)
+    public static ArrayList<Mercaderia> leerArchivo(String file)
     {
-        Mercaderia aux = new Mercaderia();
+        ArrayList<Mercaderia> aux = new ArrayList<>();
 
         try
         {
             FileInputStream fileInputStream = new FileInputStream(file);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-            aux = (Mercaderia) objectInputStream.readObject();
+            while (true)
+            {
+                aux.add((Mercaderia) objectInputStream.readObject());
+            }
 
-            objectInputStream.close();
-
+        }
+        catch(EOFException e)
+        {
+            // Fin del Archivo
         }
         catch(FileNotFoundException e)
         {

@@ -1,16 +1,20 @@
 package app;
 
 import archivos.ControladorArchivos;
+import clases.Aplicacion;
 import clases.Mercaderia;
 import interfacesGraficas.IG_Calcular;
 import interfacesGraficas.IG_Inicio;
+
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args)
     {
+        Aplicacion app = new Aplicacion();
         Mercaderia mercaderia = new Mercaderia();
-        Mercaderia aux = new Mercaderia();
+        ArrayList<Mercaderia> aux = app.getArrayList();
 
         aux = ControladorArchivos.leerArchivo("file.dat");
 
@@ -18,7 +22,7 @@ public class Main {
 
     }
 
-    public static void ventanaInicio(Mercaderia mercaderia, Mercaderia aux)
+    public static void ventanaInicio(Mercaderia mercaderia, ArrayList<Mercaderia> aux)
     {
         IG_Inicio bienvenida = new IG_Inicio(mercaderia, aux);
 

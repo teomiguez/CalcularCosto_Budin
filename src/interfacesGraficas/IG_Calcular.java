@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import archivos.ControladorArchivos;
 import clases.Mercaderia;
@@ -14,7 +15,7 @@ public class IG_Calcular extends JFrame implements ActionListener
     // ATRIBUTOS
 
     private Mercaderia mercaderia;
-    private Mercaderia aux;
+    private ArrayList<Mercaderia> auxiliar;
 
     private float precioMaple;
     private float precioHarina;
@@ -61,7 +62,7 @@ public class IG_Calcular extends JFrame implements ActionListener
     public IG_Calcular()
     {
         this.mercaderia = IG_Inicio.mercaderia;
-        this.aux = IG_Inicio.aux; // para miVer (copia con lo guardado viejo)
+        this.auxiliar = IG_Inicio.aux; // para miVer (copia con lo guardado viejo)
 
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -85,7 +86,7 @@ public class IG_Calcular extends JFrame implements ActionListener
 
         // LAS OPCIONIES DENTRO DEL MENU OPCIONES ...
 
-        miVer = new JMenuItem("Ver Guardado");
+        miVer = new JMenuItem("Ver Guardados");
         miVer.setFont(new Font("Andale Mono", 1, 14));
         miVer.setForeground(new Color(0,0,0));
         menuOpciones.add(miVer);
@@ -290,20 +291,27 @@ public class IG_Calcular extends JFrame implements ActionListener
         }
         if (e.getSource() == miVer)
         {
-            float precioAux = calcularPrecio_Budin(aux.getPrecioMaple(), aux.getPrecioHarina_Kg(), aux.getPrecioAzucar_Kg(), aux.getPrecioAceite_Lt(), aux.getPrecioLeche_Lt(), aux.getPapeleria().getPrecioBudinera(), aux.getPapeleria().getPrecioBolsitas(), aux.getPapeleria().getPrecioEtiquetas());
+            textArea.setText(""); // limpio el campo
 
-            textArea.setText(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(aux.getFecha()) +
-                    "\n\n          - MERCADERIA -" +
-                    "\n     MAPLE: $" + aux.getPrecioMaple() +
-                    "\n     HARINA x KG: $" + aux.getPrecioHarina_Kg() +
-                    "\n     AZUCAR x KG: $" + aux.getPrecioAzucar_Kg() +
-                    "\n     ACEITE x LT: $" + aux.getPrecioAceite_Lt() +
-                    "\n     LECHE x LT: $" + aux.getPrecioLeche_Lt() +
-                    "\n\n          - PAPELERIA -" +
-                    "\n     BUDINERAS: $" + aux.getPapeleria().getPrecioBudinera() +
-                    "\n     BOLSITAS: $" + aux.getPapeleria().getPrecioBolsitas() +
-                    "\n     ETIQUETAS: $" + aux.getPapeleria().getPrecioEtiquetas() +
-                    "\n\n               PRECIO UNITARIO BUDIN: $" + String.format("%.2f", precioAux));
+            for (int i = 0; i < auxiliar.size(); i++)
+            {
+                Mercaderia aux = auxiliar.get(i);
+
+                float precioAux = calcularPrecio_Budin(aux.getPrecioMaple(), aux.getPrecioHarina_Kg(), aux.getPrecioAzucar_Kg(), aux.getPrecioAceite_Lt(), aux.getPrecioLeche_Lt(), aux.getPapeleria().getPrecioBudinera(), aux.getPapeleria().getPrecioBolsitas(), aux.getPapeleria().getPrecioEtiquetas());
+
+                textArea.append(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(aux.getFecha()) +
+                        "\n\n          - MERCADERIA -" +
+                        "\n     MAPLE: $" + aux.getPrecioMaple() +
+                        "\n     HARINA x KG: $" + aux.getPrecioHarina_Kg() +
+                        "\n     AZUCAR x KG: $" + aux.getPrecioAzucar_Kg() +
+                        "\n     ACEITE x LT: $" + aux.getPrecioAceite_Lt() +
+                        "\n     LECHE x LT: $" + aux.getPrecioLeche_Lt() +
+                        "\n\n          - PAPELERIA -" +
+                        "\n     BUDINERAS: $" + aux.getPapeleria().getPrecioBudinera() +
+                        "\n     BOLSITAS: $" + aux.getPapeleria().getPrecioBolsitas() +
+                        "\n     ETIQUETAS: $" + aux.getPapeleria().getPrecioEtiquetas() +
+                        "\n\n               PRECIO UNITARIO BUDIN: $" + String.format("%.2f", precioAux));
+            }
         }
         if (e.getSource() == miNuevo)
         {
@@ -311,9 +319,10 @@ public class IG_Calcular extends JFrame implements ActionListener
         }
         if (e.getSource() == miSalir)
         {
-            ControladorArchivos.guardarArchivo("file.dat", mercaderia);
+            auxiliar.add(mercaderia);
+            ControladorArchivos.guardarArchivo("file.dat", auxiliar);
 
-            IG_Inicio bienvenida = new IG_Inicio(mercaderia, aux);
+            IG_Inicio bienvenida = new IG_Inicio(mercaderia, auxiliar);
             bienvenida.setBounds(0, 0, 370, 370);
             bienvenida.setVisible(true);
             bienvenida.setResizable(false);
