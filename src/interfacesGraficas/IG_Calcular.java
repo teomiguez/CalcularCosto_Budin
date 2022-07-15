@@ -299,8 +299,8 @@ public class IG_Calcular extends JFrame implements ActionListener
 
                 float precioAux = calcularPrecio_Budin(aux.getPrecioMaple(), aux.getPrecioHarina_Kg(), aux.getPrecioAzucar_Kg(), aux.getPrecioAceite_Lt(), aux.getPrecioLeche_Lt(), aux.getPapeleria().getPrecioBudinera(), aux.getPapeleria().getPrecioBolsitas(), aux.getPapeleria().getPrecioEtiquetas());
 
-                textArea.append(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(aux.getFecha()) +
-                        "\n\n          - MERCADERIA -" +
+                textArea.append(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(aux.getFecha()));
+                textArea.append(        "\n\n          - MERCADERIA -" +
                         "\n     MAPLE: $" + aux.getPrecioMaple() +
                         "\n     HARINA x KG: $" + aux.getPrecioHarina_Kg() +
                         "\n     AZUCAR x KG: $" + aux.getPrecioAzucar_Kg() +
@@ -311,6 +311,10 @@ public class IG_Calcular extends JFrame implements ActionListener
                         "\n     BOLSITAS: $" + aux.getPapeleria().getPrecioBolsitas() +
                         "\n     ETIQUETAS: $" + aux.getPapeleria().getPrecioEtiquetas() +
                         "\n\n               PRECIO UNITARIO BUDIN: $" + String.format("%.2f", precioAux));
+                if (i < (auxiliar.size()-1))
+                {
+                    textArea.append("\n\n          -------------------------            \n\n");
+                }
             }
         }
         if (e.getSource() == miNuevo)
@@ -319,8 +323,11 @@ public class IG_Calcular extends JFrame implements ActionListener
         }
         if (e.getSource() == miSalir)
         {
-            auxiliar.add(mercaderia);
-            ControladorArchivos.guardarArchivo("file.dat", auxiliar);
+            if (verificarCamposCargados(textMaple, textHarina, textAzucar, textAceite, textLeche, textBudineras, textBolsitas, textEtiquetas))
+            {
+                auxiliar.add(mercaderia);
+                ControladorArchivos.guardarArchivo("file.dat", auxiliar);
+            }
 
             IG_Inicio bienvenida = new IG_Inicio(mercaderia, auxiliar);
             bienvenida.setBounds(0, 0, 370, 370);
