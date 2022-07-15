@@ -3,6 +3,8 @@ package interfacesGraficas;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+
 import archivos.ControladorArchivos;
 import clases.Mercaderia;
 import clases.Papeleria;
@@ -248,8 +250,7 @@ public class IG_Calcular extends JFrame implements ActionListener
     {
         if (e.getSource() == botonCalcular)
         {
-            if (verificarCamposCargados(textMaple, textHarina, textAzucar, textAceite, textLeche, textBudineras, textBolsitas, textEtiquetas))
-            {
+            if (verificarCamposCargados(textMaple, textHarina, textAzucar, textAceite, textLeche, textBudineras, textBolsitas, textEtiquetas)) {
                 precioMaple = Float.parseFloat(textMaple.getText().trim());
                 precioHarina = Float.parseFloat(textHarina.getText().trim());
                 precioAzucar = Float.parseFloat(textAzucar.getText().trim());
@@ -269,7 +270,7 @@ public class IG_Calcular extends JFrame implements ActionListener
 
                 precioBudin = calcularPrecio_Budin(precioMaple, precioHarina, precioAzucar, precioAceite, precioLeche, precioBudineras, precioBolsitas, precioEtiquetas);
 
-                textArea.setText(" FECHA: " + mercaderia.getFecha().toString() +
+                textArea.setText(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(mercaderia.getFecha()) +
                         "\n\n          - MERCADERIA -" +
                         "\n     MAPLE: $" + mercaderia.getPrecioMaple() +
                         "\n     HARINA x KG: $" + mercaderia.getPrecioHarina_Kg() +
@@ -291,7 +292,7 @@ public class IG_Calcular extends JFrame implements ActionListener
         {
             float precioAux = calcularPrecio_Budin(aux.getPrecioMaple(), aux.getPrecioHarina_Kg(), aux.getPrecioAzucar_Kg(), aux.getPrecioAceite_Lt(), aux.getPrecioLeche_Lt(), aux.getPapeleria().getPrecioBudinera(), aux.getPapeleria().getPrecioBolsitas(), aux.getPapeleria().getPrecioEtiquetas());
 
-            textArea.setText(" FECHA: " + aux.getFecha().toString() +
+            textArea.setText(" FECHA: " + new SimpleDateFormat("dd-MM-yyyy").format(aux.getFecha()) +
                     "\n\n          - MERCADERIA -" +
                     "\n     MAPLE: $" + aux.getPrecioMaple() +
                     "\n     HARINA x KG: $" + aux.getPrecioHarina_Kg() +
@@ -366,19 +367,8 @@ public class IG_Calcular extends JFrame implements ActionListener
         float bolsita = precioBolsitas/100;
         float etiqueta = precioEtiquetas/99;
 
-        System.out.println("Maple: " + maple);
-        System.out.println("Harina: " + harina);
-        System.out.println("Azucar: " + azucar);
-        System.out.println("Aceite: " + aceite);
-        System.out.println("Leche: " + leche);
-        System.out.println("Budinera: " + budinera);
-        System.out.println("Bolsita: " + bolsita);
-        System.out.println("Etiqueta: " + etiqueta);
-
         precioFinal = (maple + harina + azucar + aceite + aceite + leche) /13;
-        System.out.println("\n precio sin papel: " + precioFinal);
         precioFinal += (budinera + bolsita + etiqueta);
-        System.out.println("\n precio con papel: " + precioFinal);
 
         return precioFinal;
     }
