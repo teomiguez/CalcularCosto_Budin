@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CalcularBudin:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CalcularBudin_jar</output-path>
+    <root id="archive" name="CalcularBudin.jar">
+      <element id="module-output" name="CalcularBudin" />
+    </root>
+  </artifact>
+</component>

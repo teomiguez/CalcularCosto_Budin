@@ -14,6 +14,7 @@ public class Main {
     {
         Aplicacion app = new Aplicacion();
         Mercaderia mercaderia = new Mercaderia();
+        //ArrayList<Mercaderia> aux = new ArrayList<>();
         ArrayList<Mercaderia> aux = app.getArrayList();
 
         aux = ControladorArchivos.leerArchivo("file.dat");
